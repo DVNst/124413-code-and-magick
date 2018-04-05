@@ -1,4 +1,4 @@
-f<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -199,9 +199,11 @@ f<!DOCTYPE html>
   var getWizardY = function(height) {
     //Результат используется, чтобы задать положение мага по вертикали, так, чтобы маг появлялся на высоте две трети игрового поля от земли.
     //опускаем мага на 1/3 высоту поля(height) и вычитаем его рост
-    return height / 3 - getWizardHeight;
+    return height / 3 - getWizardHeight();
   };
 </script>
+
+<script src="js/stat.js"></script>
 <script src="js/game.js"></script>
 
 </body>
