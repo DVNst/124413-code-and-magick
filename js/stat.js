@@ -8,6 +8,9 @@ var GAP = 10;
 var TEXT_GAP = 20;
 var TEXT_HEIGHT = 20;
 
+var TEXT_FONT = '16px PT Mono';
+var TEXT_COLOR = '#000';
+
 var BAR_WIDTH = 40;
 var BAR_MAX_HEIGHT = 150;
 var BAR_SPACE = 50;
@@ -55,16 +58,23 @@ var getRandomColor = function (names) {
   return (names === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
 };
 
+var showingText = function (ctx, text, x, y) {
+  ctx.font = TEXT_FONT;
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillText(text, x, y);
+};
+
 window.renderStatistics = (function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, 'rgba(255, 255, 255, 1)');
   ctx.stroke();
 
-  ctx.fillStyle = '#000';
-  ctx.font = '16px PT Mono';
-
-  ctx.fillText('Ура вы победили!', CLOUD_X + TEXT_GAP * 3, CLOUD_Y + TEXT_GAP);
-  ctx.fillText('Список результатов:', CLOUD_X + TEXT_GAP * 2, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
+  // ctx.fillStyle = '#000';
+  // ctx.font = '16px PT Mono';
+  // ctx.fillText('Ура вы победили!', CLOUD_X + TEXT_GAP * 3, CLOUD_Y + TEXT_GAP);
+  // ctx.fillText('Список результатов:', CLOUD_X + TEXT_GAP * 2, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
+  showingText(ctx, 'Ура вы победили!', CLOUD_X + TEXT_GAP * 3, CLOUD_Y + TEXT_GAP);
+  showingText(ctx, 'Список результатов:', CLOUD_X + TEXT_GAP * 2, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
 
   var maxTime = getMaxElement(times);
 
@@ -73,9 +83,11 @@ window.renderStatistics = (function (ctx, names, times) {
     var barY = CLOUD_HEIGHT - TEXT_HEIGHT - GAP - BAR_MAX_HEIGHT * times[i] / maxTime;
     var barHeight = BAR_MAX_HEIGHT * times[i] / maxTime;
 
-    ctx.fillStyle = '#000';
-    ctx.fillText(names[i], barX, CLOUD_HEIGHT - GAP);
-    ctx.fillText(Math.round(times[i]), barX, barY - GAP);
+    // ctx.fillStyle = '#000';
+    // ctx.fillText(names[i], barX, CLOUD_HEIGHT - GAP);
+    // ctx.fillText(Math.round(times[i]), barX, barY - GAP);
+    showingText(ctx, names[i], barX, CLOUD_HEIGHT - GAP);
+    showingText(ctx, Math.round(times[i]), barX, barY - GAP);
 
     ctx.fillStyle = getRandomColor(names[i]);
     ctx.fillRect(barX, barY, BAR_WIDTH, barHeight);
