@@ -52,10 +52,7 @@ var getMaxElement = function (arr) {
 };
 
 var getRandomColor = function (names) {
-  if (names === 'Вы') {
-    return 'rgba(255, 0, 0, 1)';
-  }
-  return 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
+  return (names === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
 };
 
 window.renderStatistics = (function (ctx, names, times) {
