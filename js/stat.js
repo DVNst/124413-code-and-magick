@@ -58,7 +58,7 @@ var getRandomColor = function (names) {
   return (names === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
 };
 
-var showingText = function (ctx, text, x, y) {
+var renderText = function (ctx, text, x, y) {
   ctx.font = TEXT_FONT;
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(text, x, y);
@@ -69,8 +69,8 @@ window.renderStatistics = (function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X, CLOUD_Y, 'rgba(255, 255, 255, 1)');
   ctx.stroke();
 
-  showingText(ctx, 'Ура вы победили!', CLOUD_X + TEXT_GAP * 3, CLOUD_Y + TEXT_GAP);
-  showingText(ctx, 'Список результатов:', CLOUD_X + TEXT_GAP * 2, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
+  renderText(ctx, 'Ура вы победили!', CLOUD_X + TEXT_GAP * 3, CLOUD_Y + TEXT_GAP);
+  renderText(ctx, 'Список результатов:', CLOUD_X + TEXT_GAP * 2, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
 
   var maxTime = getMaxElement(times);
 
@@ -79,8 +79,8 @@ window.renderStatistics = (function (ctx, names, times) {
     var barY = CLOUD_HEIGHT - TEXT_HEIGHT - GAP - BAR_MAX_HEIGHT * times[i] / maxTime;
     var barHeight = BAR_MAX_HEIGHT * times[i] / maxTime;
 
-    showingText(ctx, names[i], barX, CLOUD_HEIGHT - GAP);
-    showingText(ctx, Math.round(times[i]), barX, barY - GAP);
+    renderText(ctx, names[i], barX, CLOUD_HEIGHT - GAP);
+    renderText(ctx, Math.round(times[i]), barX, barY - GAP);
 
     ctx.fillStyle = getRandomColor(names[i]);
     ctx.fillRect(barX, barY, BAR_WIDTH, barHeight);
