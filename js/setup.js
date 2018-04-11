@@ -1,5 +1,6 @@
 'use strict';
 
+var WIZARD_QUANTITY = 4;
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
@@ -21,23 +22,22 @@ var getName = function () {
 };
 
 var createWizard = function () {
-  var wizard = {
+  return {
     'name': getName(),
     'coatColor': getRandomArrayElement(WIZARD_COAT_COLOR),
     'eyesColor': getRandomArrayElement(WIZARD_EYES_COLOR)
   };
-  return wizard;
 };
 
 var wizards = [];
-for (var i = 0; i < 4; i++) {
+for (var i = 0; i < WIZARD_QUANTITY; i++) {
   wizards.push(createWizard());
 }
 
 var renderWizards = function () {
   var fragment = document.createDocumentFragment();
 
-  for (var j = 0; j < 4; j++) {
+  for (var j = 0; j < WIZARD_QUANTITY; j++) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizards[j].name;
