@@ -1,4 +1,6 @@
 'use strict';
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var WIZARD_QUANTITY = 4;
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
@@ -11,6 +13,8 @@ var setup = document.querySelector('.setup');
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+var wizards = [];
 
 var getRandomArrayElement = function (arr) {
   var RandomNumber = Math.round(Math.random() * (arr.length - 1));
@@ -29,7 +33,6 @@ var createWizard = function () {
   };
 };
 
-var wizards = [];
 for (var i = 0; i < WIZARD_QUANTITY; i++) {
   wizards.push(createWizard());
 }
@@ -51,24 +54,21 @@ var renderWizards = function () {
 };
 
 similarListElement.appendChild(renderWizards());
-
 document.querySelector('.setup-similar').classList.remove('hidden');
 
-// открытие окна с настройками:
-
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
+// -------НАСТРОЙКИ ПЕРСОНАЖА-------
 
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = setup.querySelector('.setup-close');
 
 var setupName = setup.querySelector('.setup-user-name');
+var userNameInput = setup.querySelector('.setup-user-name');
 
-var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
-  }
-};
+var setupWizard = setup.querySelector('.setup-player');
+var wizardEyes = setupWizard.querySelector('.wizard-eyes');
+var wizardEyesInput = document.getElementsByName('eyes-color');
+var wizardFireball = setupWizard.querySelector('.setup-fireball-wrap');
+var wizardFireballInput = document.getElementsByName('fireball-color');
 
 var openPopup = function () {
   setup.classList.remove('hidden');
@@ -78,6 +78,12 @@ var openPopup = function () {
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
 };
 
 // открытие окна с настройками:
@@ -113,47 +119,36 @@ setupName.addEventListener('blur', function () {
 });
 
 // проверка валидности заполнения имени:
-var userNameInput = setup.querySelector('.setup-user-name');
-
 userNameInput.addEventListener('invalid', function () {
+  var errorText = '';
   if (userNameInput.validity.tooShort) {
-    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    errorText = 'Имя должно состоять минимум из 2-х символов';
   } else if (userNameInput.validity.tooLong) {
-    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+    errorText = 'Имя не должно превышать 25-ти символов';
   } else if (userNameInput.validity.valueMissing) {
-    userNameInput.setCustomValidity('Обязательное поле');
-  } else {
-    userNameInput.setCustomValidity('');
+    errorText = 'Обязательное поле';
   }
+  userNameInput.setCustomValidity(errorText);
 });
 
 // проверка мин. кол-ва символов (для Edge)
 userNameInput.addEventListener('input', function (evt) {
   var target = evt.target;
-  if (target.value.length < 2) {
-    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
-  } else {
-    target.setCustomValidity('');
-  }
+  var errorText = (target.value.length < 2) ? 'Имя должно состоять минимум из 2-х символов' : '';
+  target.setCustomValidity(errorText);
 });
 
 // Настройка персонажа:
-var setupWizard = setup.querySelector('.setup-player');
-
 // Изменение цвета глаз персонажа по нажатию:
-var wizardEyes = setupWizard.querySelector('.wizard-eyes');
-var wizardEyesInput = document.getElementsByName('eyes-color');
-
 wizardEyes.addEventListener('click', function () {
-  wizardEyesInput[0].value = getRandomArrayElement(WIZARD_EYES_COLOR);
-  wizardEyes.style.fill = wizardEyesInput[0].value;
+  var eyesColor = getRandomArrayElement(WIZARD_EYES_COLOR);
+  wizardEyesInput[0].value = eyesColor;
+  wizardEyes.style.fill = eyesColor;
 });
 
 // Изменение цвета фаерболов по нажатию:
-var wizardFireball = setupWizard.querySelector('.setup-fireball-wrap');
-var wizardFireballInput = document.getElementsByName('fireball-color');
-
 wizardFireball.addEventListener('click', function () {
-  wizardFireballInput[0].value = getRandomArrayElement(WIZARD_FIREBALL_COLOR);
-  wizardFireball.style.background = wizardFireballInput[0].value;
+  var fireballColor = getRandomArrayElement(WIZARD_FIREBALL_COLOR);
+  wizardFireballInput[0].value = fireballColor;
+  wizardFireball.style.background = fireballColor;
 });
